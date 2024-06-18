@@ -8,51 +8,60 @@ public class Weapon : MonoBehaviour
 {
     public SteamVR_Action_Boolean buttonAAction;
     public SteamVR_Action_Boolean buttonBAction;
-    public Interactable interactable;
+    private Interactable interactable;
     private SteamVR_Action_Boolean fireAction;
-    private bool isReadyToShoot = true;
-    private float delay = 0.4f; //must be greater than the shot animation length
     public GameObject bulletProjectile;
     public GameObject sleeve;
     public GameObject bullet;
     public GameObject muzzlePoint;
     public GameObject sleevePoint;
-    public float force = 3f;
-    public AudioSource shotSound;
+    private GameObject magazineGO;
+    public GameObject bulletInChamberGO;
+    public GameObject secondGrabPoint;
+    public Sliding movingPartSliding;
+    private Magazine magazine;
+    public float delay = 0.4f;
+    public float force;
     public ParticleSystem shotEffect;
     public Animator triggerAnimator;
+    public Animator hammerAnimator;
+    public bool hasHammer;
     public bool stopTimeOnShot;
-    private GameObject magazineGO;
-    private Magazine magazine;
+    private bool movingPartWasInEndPosZ;
+    private bool isReadyToShoot = true;
     private bool magazineInserted;
     private bool isMovingToEmptyState;
-    public GameObject bulletInChamberGO;
-
-    public bool hasHammer;
-    public Animator hammerAnimator;
-
-    private bool movingPartWasInEndPosZ;
     public Vector3 magazineInWeaponPos;
     public Quaternion magazineInWeaponRot;
     public Transform magazinePoint;
     public Transform magazinePointDrop;
-    public Sliding movingPartSliding;
-    public GameObject secondGrabPoint;
     public AudioSource magActionsAudio;
+    public AudioSource shotSound;
     public AudioClip magInsertAudio;
     public AudioClip magDropAudio;
-    public Quaternion correctRot;
     void Start()
     {
         interactable = GetComponent<Interactable>();
         fireAction = SteamVR_Actions.default_InteractUI;
+    }
+    public Interactable returnInteractable()
+    {
+        return interactable;
     }
     public GameObject GetMagazineGO()
     {
         return magazineGO;
     }
 
-    void Update()
+    private void Update()
+    {
+        CheckIfMagazineGameObjectIsNotNull();
+        CheckIfIsMovingToEmptyState();
+        CheckIfInteractableHasHand();
+        CheckMovingPartMovement();
+        CheckIfHasHammer();
+    }
+    private void CheckIfMagazineGameObjectIsNotNull()
     {
         if (magazineGO != null)
         {
@@ -60,7 +69,19 @@ public class Weapon : MonoBehaviour
             magazineGO.transform.localPosition = magazineInWeaponPos;
             magazineGO.transform.localRotation = magazineInWeaponRot;
             magazineGO.GetComponent<Collider>().enabled = false;
+
+            magazineInserted = true;
+            magazine = magazineGO.GetComponent<Magazine>();
+            magazine.body.isKinematic = true;
         }
+        else
+        {
+            magazineInserted = false;
+            magazine = null;
+        }
+    }
+    private void CheckIfIsMovingToEmptyState()
+    {
         //localPosition!!
         if (isMovingToEmptyState)
         {
@@ -76,48 +97,27 @@ public class Weapon : MonoBehaviour
         {
             movingPartSliding.isInEmptyState = false;
         }
-
-
-
-        if (Input.GetKeyDown(KeyCode.K) && magazineInserted)
-        {
-            DropMagazine();
-        }
-        if (Input.GetKeyDown(KeyCode.N) && isReadyToShoot && bulletInChamberGO.activeSelf)
-        {
-            Shot();
-        }
-        if (Input.GetKeyDown(KeyCode.V) && movingPartSliding.isInEmptyState)
-        {
-            movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, movingPartSliding.startPos.z, Time.deltaTime));
-            if (movingPartSliding.gameObject.transform.localPosition != new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.startPos.z))
-            {
-                movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.startPos.z);
-                movingPartSliding.playSound();
-            }
-        }
-
-
-
-        if (magazineGO != null)
-        {
-            magazineInserted = true;
-            magazine = magazineGO.GetComponent<Magazine>();
-            magazine.body.isKinematic = true;
-        }
-        else
-        {
-            magazineInserted = false;
-            magazine = null;
-        }
-
+    }
+    private void CheckIfInteractableHasHand()
+    {
         if (interactable.attachedToHand != null)
         {
             secondGrabPoint.SetActive(true);
             SteamVR_Input_Sources hand = interactable.attachedToHand.handType;
-            if (fireAction[hand].stateDown && isReadyToShoot && bulletInChamberGO.activeSelf)
+            if (fireAction[hand].stateDown && isReadyToShoot)
             {
-                Shot();
+                triggerAnimator.Play("TriggerMove");
+                if (bulletInChamberGO.activeSelf)
+                {
+                    Shot();
+                }
+                else
+                {
+                    if (hasHammer)
+                    {
+                        hammerAnimator.Play("EmptyShotHammerMove");
+                    }
+                }
             }
             if (buttonAAction[hand].stateDown && magazineInserted)
             {
@@ -136,12 +136,15 @@ public class Weapon : MonoBehaviour
         else
         {
             Hand hand = secondGrabPoint.GetComponent<Interactable>().attachedToHand;
-            if(secondGrabPoint.GetComponent<Interactable>().attachedToHand == secondGrabPoint)
+            if (secondGrabPoint.GetComponent<Interactable>().attachedToHand == secondGrabPoint)
             {
                 hand.DetachObject(secondGrabPoint);
             }
             secondGrabPoint.SetActive(false);
         }
+    }
+    private void CheckMovingPartMovement()
+    {
         //localPosition!!
         if (movingPartSliding.gameObject.transform.localPosition.z == movingPartSliding.endPosZ)
         {
@@ -157,13 +160,22 @@ public class Weapon : MonoBehaviour
         {
             TryToLoadBulletInChamber();
         }
-        if (bulletInChamberGO.activeSelf && hasHammer)
+    }
+    private void CheckIfHasHammer()
+    {
+        if (hasHammer)
         {
-            hammerAnimator.Play("HammerReadyToHit");
-        }
-        else
-        {
-            hammerAnimator.Play("HammerNotReadyToHit");
+            if (bulletInChamberGO.activeSelf && !hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("EmptyShotHammerMove"))
+            {
+                hammerAnimator.Play("HammerReadyToHit");
+            }
+            else
+            {
+                if (!hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("EmptyShotHammerMove") && !hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("None"))
+                {
+                    hammerAnimator.Play("HammerNotReadyToHit");
+                }
+            }
         }
     }
     public void DropMagazine()
@@ -196,15 +208,10 @@ public class Weapon : MonoBehaviour
             }
         }
     }
-    public void ExitFromEmptyState()
-    {
-        movingPartSliding.isInEmptyState = false;
-    }
     public void Shot()
     {
         movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.endPosZ);
         bulletInChamberGO.SetActive(false);
-        triggerAnimator.Play("Shot");
         shotSound.Play();
         shotEffect.Play();
         isReadyToShoot = false;
@@ -214,10 +221,8 @@ public class Weapon : MonoBehaviour
         var newSleeve = Instantiate(sleeve, sleevePoint.transform.position, sleevePoint.transform.rotation);
         newBulletProjectile.GetComponent<Rigidbody>().AddForce(muzzlePoint.transform.forward * force, ForceMode.Impulse);
         newSleeve.GetComponent<Rigidbody>().AddForce(sleevePoint.transform.right * 0.1f, ForceMode.Impulse);
-        if (stopTimeOnShot)
-        {
+        if(stopTimeOnShot)
             Time.timeScale = 0f;
-        }
 
         if (magazineInserted)
         {

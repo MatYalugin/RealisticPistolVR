@@ -11,11 +11,10 @@ public class Sliding : MonoBehaviour
     public float currentPosZ;
     public Rigidbody body;
     public GameObject parentGO;
-    public bool isInEmptyState;
     public Collider _collider;
     public Weapon weapon;
-    public bool activateCollider;
     public AudioSource audioSource;
+    public bool isInEmptyState;
     private bool soundPlayed;
 
 
@@ -26,23 +25,33 @@ public class Sliding : MonoBehaviour
         startRot = gameObject.transform.localRotation;
     }
 
-    void Update()
+    private void Update()
+    {
+        SetRightRotationAndParent();
+        CheckIfInteractableHasHand();
+        SetRightPosition();
+        MoveOnStartPositionWhenInteractableHasNotHand();
+        DecideWhenPlaySound();
+    }
+    private void SetRightRotationAndParent()
     {
         gameObject.transform.localRotation = startRot;
-        gameObject.transform.parent = weapon.gameObject.transform;
-        if (weapon.interactable.attachedToHand != null)
+        gameObject.transform.SetParent(parentGO.transform);
+    }
+    private void CheckIfInteractableHasHand()
+    {
+        if (weapon.returnInteractable().attachedToHand != null)
         {
             gameObject.transform.localRotation = startRot;
-        }
-        if (weapon.interactable.attachedToHand != null || activateCollider)
-        {
             _collider.enabled = true;
         }
         else
         {
             _collider.enabled = false;
         }
-        gameObject.transform.SetParent(parentGO.transform);
+    }
+    private void SetRightPosition()
+    {
         //localPosition!!
         currentPosZ = gameObject.transform.localPosition.z;
         if (gameObject.transform.localPosition.z > startPos.z)
@@ -62,12 +71,17 @@ public class Sliding : MonoBehaviour
         {
             gameObject.transform.localPosition = new Vector3(startPos.x, startPos.y, gameObject.transform.localPosition.z);
         }
-        if(interactable.attachedToHand == null && gameObject.transform.localPosition.z < startPos.z && !isInEmptyState)
+    }
+    private void MoveOnStartPositionWhenInteractableHasNotHand()
+    {
+        if (interactable.attachedToHand == null && gameObject.transform.localPosition.z < startPos.z && !isInEmptyState)
         {
             gameObject.transform.localPosition = new Vector3(startPos.x, startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, startPos.z, Time.deltaTime));
         }
-
-        if(gameObject.transform.localPosition.z == endPosZ && interactable.attachedToHand != null && !soundPlayed)
+    }
+    private void DecideWhenPlaySound()
+    {
+        if (gameObject.transform.localPosition.z == endPosZ && interactable.attachedToHand != null && !soundPlayed)
         {
             playSound();
         }

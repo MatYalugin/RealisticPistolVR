@@ -1392,10 +1392,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 4878699354386841789, guid: 42947914eb27bd44daddc232f041f505, type: 3}
-      propertyPath: highlightOnHover
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7293443074737808609, guid: 42947914eb27bd44daddc232f041f505, type: 3}
       propertyPath: m_Name
       value: gun_makarov

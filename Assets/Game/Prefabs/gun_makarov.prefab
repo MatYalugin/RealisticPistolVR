@@ -1707,7 +1707,6 @@ MonoBehaviour:
   isInEmptyState: 0
   _collider: {fileID: 768017149921651893}
   weapon: {fileID: 9193570778676127611}
-  activateCollider: 0
   audioSource: {fileID: 2976735328727840873}
 --- !u!82 &2976735328727840873
 AudioSource:
@@ -2243,24 +2242,24 @@ MonoBehaviour:
   bullet: {fileID: 4041247343036642502, guid: 48513c936ac418343a71dc13cc995c00, type: 3}
   muzzlePoint: {fileID: 4248750322700220845}
   sleevePoint: {fileID: 5633773781529012114}
+  bulletInChamberGO: {fileID: 1071413430283185748}
+  secondGrabPoint: {fileID: 5251189445742375398}
+  movingPartSliding: {fileID: 1934282609950549919}
+  delay: 0.4
   force: 10
-  shotSound: {fileID: 1879895331869095597}
   shotEffect: {fileID: 7097142409318758357}
   triggerAnimator: {fileID: 7099226561348604930}
-  stopTimeOnShot: 0
-  bulletInChamberGO: {fileID: 1071413430283185748}
-  hasHammer: 1
   hammerAnimator: {fileID: 6754981962588520533}
+  hasHammer: 1
+  stopTimeOnShot: 0
   magazineInWeaponPos: {x: 0.08575058, y: 0.06807676, z: -0.08465576}
   magazineInWeaponRot: {x: -89.98, y: 0, z: 0, w: 89.98}
   magazinePoint: {fileID: 3688165576876972326}
   magazinePointDrop: {fileID: 5310534323049762030}
-  movingPartSliding: {fileID: 1934282609950549919}
-  secondGrabPoint: {fileID: 5251189445742375398}
   magActionsAudio: {fileID: 6141171177357496482}
+  shotSound: {fileID: 1879895331869095597}
   magInsertAudio: {fileID: 8300000, guid: 0c65f8a5c99382247b64e18d06093342, type: 3}
   magDropAudio: {fileID: 8300000, guid: 4f02ba9c0fcbca9499bde1459d628f64, type: 3}
-  correctRot: {x: 0.38268322, y: 0, z: 0, w: 0.9238796}
 --- !u!95 &7099226561348604930
 Animator:
   serializedVersion: 5

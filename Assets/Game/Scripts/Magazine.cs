@@ -14,19 +14,27 @@ public class Magazine : MonoBehaviour
     public Quaternion correctRot;
     private void Start()
     {
-        //bullets.Reverse();
         interactable = GetComponent<Interactable>();
         throwable = GetComponent<Throwable>();
     }
     private void Update()
     {
-        if(ammo < 0)
+        DoNotAllowAmmoGoBelowZero();
+        DisplayBulletsInMagazine();
+        SetCorrectRotationByHolding();
+    }
+    private void DoNotAllowAmmoGoBelowZero()
+    {
+        if (ammo < 0)
         {
             ammo = 0;
         }
-        foreach(var obj in bullets)
+    }
+    private void DisplayBulletsInMagazine()
+    {
+        foreach (var obj in bullets)
         {
-            if(bullets.IndexOf(obj) + 1 > ammo)
+            if (bullets.IndexOf(obj) + 1 > ammo)
             {
                 obj.SetActive(false);
             }
@@ -35,6 +43,9 @@ public class Magazine : MonoBehaviour
                 obj.SetActive(true);
             }
         }
+    }
+    private void SetCorrectRotationByHolding()
+    {
         if (interactable.attachedToHand != null)
         {
             gameObject.transform.localRotation = correctRot;
@@ -44,7 +55,7 @@ public class Magazine : MonoBehaviour
     {
         if (other.transform.gameObject.tag.Equals("MagazinePoint") && interactable.attachedToHand != null)
         {
-            if(other.transform.gameObject.GetComponentInParent<Weapon>().GetMagazineGO() == null && other.transform.gameObject.GetComponentInParent<Weapon>().interactable.attachedToHand != null)
+            if(other.transform.gameObject.GetComponentInParent<Weapon>().GetMagazineGO() == null && other.transform.gameObject.GetComponentInParent<Weapon>().returnInteractable().attachedToHand != null)
             {
                 Destroy(throwable);
                 Destroy(interactable);
