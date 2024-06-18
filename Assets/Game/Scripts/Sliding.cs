@@ -7,6 +7,7 @@ public class Sliding : MonoBehaviour
     private Interactable interactable;
     public Quaternion startRot;
     public Vector3 startPos;
+    public float weaponJammingPosZ;
     public float endPosZ;
     public float currentPosZ;
     public Rigidbody body;
@@ -15,6 +16,8 @@ public class Sliding : MonoBehaviour
     public Weapon weapon;
     public AudioSource audioSource;
     public bool isInEmptyState;
+    public bool isInJammingState;
+    public bool isLoadingBulletByHand;
     private bool soundPlayed;
 
 
@@ -24,7 +27,10 @@ public class Sliding : MonoBehaviour
         startPos = gameObject.transform.localPosition;
         startRot = gameObject.transform.localRotation;
     }
-
+    public Interactable returnInteractable()
+    {
+        return interactable;
+    }
     private void Update()
     {
         SetRightRotationAndParent();
@@ -74,7 +80,7 @@ public class Sliding : MonoBehaviour
     }
     private void MoveOnStartPositionWhenInteractableHasNotHand()
     {
-        if (interactable.attachedToHand == null && gameObject.transform.localPosition.z < startPos.z && !isInEmptyState)
+        if (interactable.attachedToHand == null && gameObject.transform.localPosition.z < startPos.z && !isInEmptyState && !isInJammingState && !isLoadingBulletByHand)
         {
             gameObject.transform.localPosition = new Vector3(startPos.x, startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, startPos.z, Time.deltaTime));
         }

@@ -14,9 +14,11 @@ public class Weapon : MonoBehaviour
     private SteamVR_Action_Boolean fireAction;
     public GameObject bulletProjectile;
     public GameObject sleeve;
+    private GameObject jammedSleeve;
     public GameObject bullet;
     public GameObject muzzlePoint;
     public GameObject sleevePoint;
+    public Transform sleevePointJamming;
     private GameObject magazineGO;
     public GameObject bulletInChamberGO;
     public GameObject secondGrabPoint;
@@ -24,16 +26,19 @@ public class Weapon : MonoBehaviour
     private Magazine magazine;
     public float delay = 0.4f;
     public float force;
+    public float chanceOfJamming;
     public string magazineType;
     public ParticleSystem shotEffect;
     public Animator triggerAnimator;
     public Animator hammerAnimator;
     public bool hasHammer;
     public bool stopTimeOnShot;
+    private bool jammedSleevePushed;
     private bool movingPartWasInEndPosZ;
     private bool isReadyToShoot = true;
     private bool magazineInserted;
     private bool isMovingToEmptyState;
+    private bool isMovingToJammingState;
     public Vector3 magazineInWeaponPos;
     public Quaternion magazineInWeaponRot;
     public Transform magazinePoint;
@@ -60,9 +65,11 @@ public class Weapon : MonoBehaviour
     {
         CheckIfMagazineGameObjectIsNotNull();
         CheckIfIsMovingToEmptyState();
+        CheckIfWeaponIsJamming();
         CheckIfInteractableHasHand();
         CheckMovingPartMovement();
         CheckIfHasHammer();
+        chanceOfJamming = Mathf.Clamp01(chanceOfJamming);
     }
     private void CheckIfMagazineGameObjectIsNotNull()
     {
@@ -72,7 +79,6 @@ public class Weapon : MonoBehaviour
             magazineGO.transform.localPosition = magazineInWeaponPos;
             magazineGO.transform.localRotation = magazineInWeaponRot;
             magazineGO.GetComponent<Collider>().enabled = false;
-
             magazineInserted = true;
             magazine = magazineGO.GetComponent<Magazine>();
             magazine.body.isKinematic = true;
@@ -122,7 +128,7 @@ public class Weapon : MonoBehaviour
             if (fireAction[hand].stateDown && isReadyToShoot)
             {
                 triggerAnimator.Play("TriggerMove");
-                if (bulletInChamberGO.activeSelf)
+                if (bulletInChamberGO.activeSelf && !movingPartSliding.isInJammingState)
                 {
                     Shot();
                 }
@@ -222,12 +228,28 @@ public class Weapon : MonoBehaviour
         shotSound.Play();
         shotEffect.Play();
         isReadyToShoot = false;
+        jammedSleevePushed = false;
         Invoke("makeReadyToShoot", delay);
+        if(Random.value < chanceOfJamming)
+        {
+            isMovingToJammingState = true;
+        }
         var newBulletRotation = muzzlePoint.transform.rotation * Quaternion.Euler(-90f, 0f, 0f);
         var newBulletProjectile = Instantiate(bulletProjectile, muzzlePoint.transform.position, newBulletRotation);
-        var newSleeve = Instantiate(sleeve, sleevePoint.transform.position, sleevePoint.transform.rotation);
         newBulletProjectile.GetComponent<Rigidbody>().AddForce(muzzlePoint.transform.forward * force, ForceMode.Impulse);
-        newSleeve.GetComponent<Rigidbody>().AddForce(sleevePoint.transform.right * 0.1f, ForceMode.Impulse);
+        if (!isMovingToJammingState)
+        {
+            var newSleeve = Instantiate(sleeve, sleevePoint.transform.position, sleevePoint.transform.rotation);
+            newSleeve.GetComponent<Rigidbody>().AddForce(sleevePoint.transform.right * 0.1f, ForceMode.Impulse);
+        }
+        else
+        {
+            jammedSleeve = Instantiate(sleeve, sleevePointJamming.position, sleevePointJamming.rotation);
+            jammedSleeve.GetComponent<Rigidbody>().isKinematic = true;
+            jammedSleeve.transform.SetParent(gameObject.transform);
+            jammedSleeve.GetComponent<SelfDestroy>().enabled = false;
+            jammedSleeve.GetComponent<OnLandSound>().enabled = false;
+        }
         if(stopTimeOnShot)
             Time.timeScale = 0f;
 
@@ -243,6 +265,38 @@ public class Weapon : MonoBehaviour
         {
             isMovingToEmptyState = true;
             movingPartSliding.playSound();
+        }
+    }
+    private void CheckIfWeaponIsJamming()
+    {
+        //localPosition!!
+        if (isMovingToJammingState)
+        {
+            movingPartSliding.isInJammingState = true;
+            movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, movingPartSliding.weaponJammingPosZ, Time.deltaTime));
+            if (movingPartSliding.gameObject.transform.localPosition != new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.weaponJammingPosZ))
+            {
+                movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.weaponJammingPosZ);
+                isMovingToJammingState = false;
+            }
+        }
+        if (movingPartSliding.gameObject.transform.localPosition.z < movingPartSliding.weaponJammingPosZ && movingPartSliding.isInJammingState)
+        {
+            movingPartSliding.isInJammingState = false;
+            if (!jammedSleevePushed)
+            {
+                jammedSleeve.GetComponent<Rigidbody>().isKinematic = false;
+                jammedSleeve.transform.parent = null;
+                jammedSleeve.GetComponent<Rigidbody>().AddForce(sleevePoint.transform.right * 0.1f, ForceMode.Impulse);
+                jammedSleeve.GetComponent<SelfDestroy>().enabled = true;
+                jammedSleeve.GetComponent<OnLandSound>().enabled = true;
+                jammedSleeve = null;
+                jammedSleevePushed = true;
+            }
+        }
+        if(movingPartSliding.gameObject.transform.localPosition.z > movingPartSliding.weaponJammingPosZ && movingPartSliding.isInJammingState)
+        {
+            movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.weaponJammingPosZ);
         }
     }
     public void makeReadyToShoot()

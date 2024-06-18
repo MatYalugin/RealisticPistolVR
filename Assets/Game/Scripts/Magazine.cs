@@ -30,7 +30,7 @@ public class Magazine : MonoBehaviour
     }
     private void Update()
     {
-        KeepAmmoBetweenZeroAndBulletsCount();
+        ammo = Mathf.Clamp(ammo, 0, bullets.Count);
         DisplayBulletsInMagazine();
         SetCorrectRotationByHolding();
         CheckBulletDropButton();
@@ -44,17 +44,6 @@ public class Magazine : MonoBehaviour
             {
                 DropBullet();
             }
-        }
-    }
-    private void KeepAmmoBetweenZeroAndBulletsCount()
-    {
-        if (ammo < 0)
-        {
-            ammo = 0;
-        }
-        if(ammo > bullets.Count)
-        {
-            ammo = bullets.Count;
         }
     }
     private void DisplayBulletsInMagazine()
@@ -100,8 +89,8 @@ public class Magazine : MonoBehaviour
     {
         ammo--;
         bulletPointAudioSource.Play();
-        var rightRotation = Quaternion.Euler(-90, bulletPoint.transform.rotation.y, bulletPoint.transform.rotation.z);
-        var newBullet = Instantiate(bullet, bulletPoint.position, rightRotation);
+        var rotationOnDrop = Quaternion.Euler(gameObject.transform.rotation.x - 90, gameObject.transform.rotation.y, gameObject.transform.rotation.z);
+        var newBullet = Instantiate(bullet, bulletPoint.position, rotationOnDrop);
         newBullet.GetComponent<Rigidbody>().AddForce(bulletPoint.up * 0.02f, ForceMode.Impulse);
     }
     public void SetInteractableAndThrowable()
