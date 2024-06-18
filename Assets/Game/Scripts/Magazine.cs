@@ -8,15 +8,16 @@ public class Magazine : MonoBehaviour
 {
     public int ammo;
     public string caliber;
+    public string magazineType;
     private Interactable interactable;
     public SteamVR_Action_Boolean buttonAAction;
+    public SteamVR_Action_Boolean buttonXAction;
     private Throwable throwable;
     public Rigidbody body;
     public List<GameObject> bullets;
     public Quaternion correctRot;
     public GameObject bullet;
     public Transform bulletPoint;
-    public Quaternion bulletRotOnDrop;
     public AudioSource bulletPointAudioSource;
     private void Start()
     {
@@ -29,7 +30,7 @@ public class Magazine : MonoBehaviour
     }
     private void Update()
     {
-        DoNotAllowAmmoGoBelowZero();
+        KeepAmmoBetweenZeroAndBulletsCount();
         DisplayBulletsInMagazine();
         SetCorrectRotationByHolding();
         CheckBulletDropButton();
@@ -39,17 +40,21 @@ public class Magazine : MonoBehaviour
         if (interactable.attachedToHand != null)
         {
             SteamVR_Input_Sources hand = interactable.attachedToHand.handType;
-            if (buttonAAction[hand].stateDown && ammo != 0)
+            if (ammo != 0 && (buttonAAction[hand].stateDown || buttonXAction[hand].stateDown))
             {
                 DropBullet();
             }
         }
     }
-    private void DoNotAllowAmmoGoBelowZero()
+    private void KeepAmmoBetweenZeroAndBulletsCount()
     {
         if (ammo < 0)
         {
             ammo = 0;
+        }
+        if(ammo > bullets.Count)
+        {
+            ammo = bullets.Count;
         }
     }
     private void DisplayBulletsInMagazine()
@@ -78,7 +83,7 @@ public class Magazine : MonoBehaviour
     {
         if (other.transform.gameObject.tag.Equals("MagazinePoint") && interactable.attachedToHand != null)
         {
-            if(other.transform.gameObject.GetComponentInParent<Weapon>().GetMagazineGO() == null && other.transform.gameObject.GetComponentInParent<Weapon>().returnInteractable().attachedToHand != null)
+            if(other.transform.gameObject.GetComponentInParent<Weapon>().GetMagazineGO() == null && other.transform.gameObject.GetComponentInParent<Weapon>().returnInteractable().attachedToHand != null && magazineType == other.transform.gameObject.GetComponentInParent<Weapon>().magazineType)
             {
                 Destroy(throwable);
                 Destroy(interactable);
@@ -95,7 +100,8 @@ public class Magazine : MonoBehaviour
     {
         ammo--;
         bulletPointAudioSource.Play();
-        var newBullet = Instantiate(bullet, bulletPoint.position, bulletRotOnDrop);
+        var rightRotation = Quaternion.Euler(-90, bulletPoint.transform.rotation.y, bulletPoint.transform.rotation.z);
+        var newBullet = Instantiate(bullet, bulletPoint.position, rightRotation);
         newBullet.GetComponent<Rigidbody>().AddForce(bulletPoint.up * 0.02f, ForceMode.Impulse);
     }
     public void SetInteractableAndThrowable()

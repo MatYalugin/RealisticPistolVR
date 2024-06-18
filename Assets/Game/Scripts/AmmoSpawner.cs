@@ -4,7 +4,7 @@ using UnityEngine;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
 
-public class MagazineSpawner : MonoBehaviour
+public class AmmoSpawner : MonoBehaviour
 {
     public GameObject pickZone;
     private Interactable pickZoneInteractable;
@@ -12,6 +12,7 @@ public class MagazineSpawner : MonoBehaviour
     private Quaternion pickZoneRot;
     public GameObject magazine;
     public AudioSource audioSource;
+    public int count;
 
     void Start()
     {
@@ -23,8 +24,9 @@ public class MagazineSpawner : MonoBehaviour
     {
         pickZone.transform.position = pickZonePos;
         pickZone.transform.rotation = pickZoneRot;
-        if (pickZoneInteractable.attachedToHand != null)
+        if (pickZoneInteractable.attachedToHand != null && count != 0)
         {
+            count--;
             Hand hand = pickZoneInteractable.attachedToHand;
             var newMag = Instantiate(magazine, pickZone.transform.position, Quaternion.identity);
             var newMagInteractable = newMag.GetComponent<Interactable>();

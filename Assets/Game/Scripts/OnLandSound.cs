@@ -18,6 +18,13 @@ public class OnLandSound : MonoBehaviour
             canPlaySound = false;
         }
     }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (!collision.transform.tag.Equals(null))
+        {
+            canPlaySound = true;
+        }
+    }
     private void canPlaySoundTrue()
     {
         canPlaySound = true;

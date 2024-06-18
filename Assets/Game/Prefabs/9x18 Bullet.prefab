@@ -275,6 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   caliber: 9x18
+  correctRot: {x: 0.70710677, y: 0, z: 0, w: -0.70710677}
 --- !u!114 &644480520162569539
 MonoBehaviour:
   m_ObjectHideFlags: 0

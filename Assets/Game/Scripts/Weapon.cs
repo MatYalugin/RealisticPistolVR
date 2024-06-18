@@ -8,6 +8,8 @@ public class Weapon : MonoBehaviour
 {
     public SteamVR_Action_Boolean buttonAAction;
     public SteamVR_Action_Boolean buttonBAction;
+    public SteamVR_Action_Boolean buttonXAction;
+    public SteamVR_Action_Boolean buttonYAction;
     private Interactable interactable;
     private SteamVR_Action_Boolean fireAction;
     public GameObject bulletProjectile;
@@ -22,6 +24,7 @@ public class Weapon : MonoBehaviour
     private Magazine magazine;
     public float delay = 0.4f;
     public float force;
+    public string magazineType;
     public ParticleSystem shotEffect;
     public Animator triggerAnimator;
     public Animator hammerAnimator;
@@ -100,7 +103,7 @@ public class Weapon : MonoBehaviour
     }
     private void CheckExitFromEmptyState(SteamVR_Input_Sources hand)
     {
-        if (buttonBAction[hand].stateDown && movingPartSliding.isInEmptyState)
+        if (movingPartSliding.isInEmptyState && (buttonBAction[hand].stateDown || buttonYAction[hand].stateDown))
         {
             movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, movingPartSliding.startPos.z, Time.deltaTime));
             movingPartSliding.playSound();
@@ -131,7 +134,7 @@ public class Weapon : MonoBehaviour
                     }
                 }
             }
-            if (buttonAAction[hand].stateDown && magazineInserted)
+            if (magazineInserted && (buttonAAction[hand].stateDown  || buttonXAction[hand].stateDown))
             {
                 DropMagazine();
             }

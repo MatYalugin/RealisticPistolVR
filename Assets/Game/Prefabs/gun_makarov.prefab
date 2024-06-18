@@ -2236,6 +2236,12 @@ MonoBehaviour:
   buttonBAction:
     actionPath: /actions/default/in/Button_B
     needsReinit: 0
+  buttonXAction:
+    actionPath: /actions/default/in/Button_X
+    needsReinit: 0
+  buttonYAction:
+    actionPath: /actions/default/in/Button_Y
+    needsReinit: 0
   bulletProjectile: {fileID: 5280805236421819618, guid: 39451bd39da8f0c4a991a45589582f35, type: 3}
   sleeve: {fileID: 2824260733882859295, guid: 6b98e8e7bb28d18409626a68f91a4441, type: 3}
   bullet: {fileID: 4041247343036642502, guid: 48513c936ac418343a71dc13cc995c00, type: 3}
@@ -2246,6 +2252,7 @@ MonoBehaviour:
   movingPartSliding: {fileID: 1934282609950549919}
   delay: 0.4
   force: 10
+  magazineType: PM_Magazine
   shotEffect: {fileID: 7097142409318758357}
   triggerAnimator: {fileID: 7099226561348604930}
   hammerAnimator: {fileID: 6754981962588520533}
