@@ -9,7 +9,6 @@ public class VelocityCounter : MonoBehaviour
     private bool isHitting;
     public float Damage;
     public AudioClip hitSound;
-    public float delayToCheckTheHitOnStart = 0.1f;
     // Start is called before the first frame update
     void Start()
     {

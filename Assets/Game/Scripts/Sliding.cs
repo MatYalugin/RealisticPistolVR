@@ -65,7 +65,7 @@ public class Sliding : MonoBehaviour
         if (gameObject.transform.localPosition.z < endPosZ)
         {
             gameObject.transform.localPosition = new Vector3(startPos.x, startPos.y, endPosZ);
-
+            soundPlayed = false;
         }
         else
         {
@@ -84,10 +84,6 @@ public class Sliding : MonoBehaviour
         if (gameObject.transform.localPosition.z == endPosZ && interactable.attachedToHand != null && !soundPlayed)
         {
             playSound();
-        }
-        else
-        {
-            soundPlayed = false;
         }
     }
     public void playSound()

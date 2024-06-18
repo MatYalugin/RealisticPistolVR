@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3ef62a03ecb56c44286537a2c5fd6f0a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3ef62a03ecb56c44286537a2c5fd6f0a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3ef62a03ecb56c44286537a2c5fd6f0a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.6
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3ef62a03ecb56c44286537a2c5fd6f0a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -106,7 +106,6 @@ MonoBehaviour:
   distanceToCheckTheHit: 1
   Damage: 0
   hitSound: {fileID: 8300000, guid: a9c9cca1461e00f4cb59271e7205e632, type: 3}
-  delayToCheckTheHitOnStart: 0.02
 --- !u!54 &1803361531735354411
 Rigidbody:
   m_ObjectHideFlags: 0

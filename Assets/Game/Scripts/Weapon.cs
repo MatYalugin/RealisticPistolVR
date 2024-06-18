@@ -98,6 +98,18 @@ public class Weapon : MonoBehaviour
             movingPartSliding.isInEmptyState = false;
         }
     }
+    private void CheckExitFromEmptyState(SteamVR_Input_Sources hand)
+    {
+        if (buttonBAction[hand].stateDown && movingPartSliding.isInEmptyState)
+        {
+            movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, movingPartSliding.startPos.z, Time.deltaTime));
+            movingPartSliding.playSound();
+            if (movingPartSliding.gameObject.transform.localPosition != new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.startPos.z))
+            {
+                movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.startPos.z);
+            }
+        }
+    }
     private void CheckIfInteractableHasHand()
     {
         if (interactable.attachedToHand != null)
@@ -123,20 +135,12 @@ public class Weapon : MonoBehaviour
             {
                 DropMagazine();
             }
-            if (buttonBAction[hand].stateDown && movingPartSliding.isInEmptyState)
-            {
-                movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, Mathf.MoveTowards(gameObject.transform.localPosition.z, movingPartSliding.startPos.z, Time.deltaTime));
-                if (movingPartSliding.gameObject.transform.localPosition != new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.startPos.z))
-                {
-                    movingPartSliding.gameObject.transform.localPosition = new Vector3(movingPartSliding.startPos.x, movingPartSliding.startPos.y, movingPartSliding.startPos.z);
-                    movingPartSliding.playSound();
-                }
-            }
+            CheckExitFromEmptyState(hand);
         }
         else
         {
             Hand hand = secondGrabPoint.GetComponent<Interactable>().attachedToHand;
-            if (secondGrabPoint.GetComponent<Interactable>().attachedToHand == secondGrabPoint)
+            if (secondGrabPoint.GetComponent<Interactable>().attachedToHand != null)
             {
                 hand.DetachObject(secondGrabPoint);
             }

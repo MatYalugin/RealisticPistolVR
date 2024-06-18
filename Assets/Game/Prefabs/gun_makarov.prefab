@@ -1704,10 +1704,10 @@ MonoBehaviour:
   currentPosZ: 0
   body: {fileID: 2192171905587995458}
   parentGO: {fileID: 7293443074737808609}
-  isInEmptyState: 0
   _collider: {fileID: 768017149921651893}
   weapon: {fileID: 9193570778676127611}
   audioSource: {fileID: 2976735328727840873}
+  isInEmptyState: 0
 --- !u!82 &2976735328727840873
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2071,7 +2071,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -56.164837, y: 0.020092722, z: 53.86936}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7988150876954271095}
@@ -2236,7 +2236,6 @@ MonoBehaviour:
   buttonBAction:
     actionPath: /actions/default/in/Button_B
     needsReinit: 0
-  interactable: {fileID: 0}
   bulletProjectile: {fileID: 5280805236421819618, guid: 39451bd39da8f0c4a991a45589582f35, type: 3}
   sleeve: {fileID: 2824260733882859295, guid: 6b98e8e7bb28d18409626a68f91a4441, type: 3}
   bullet: {fileID: 4041247343036642502, guid: 48513c936ac418343a71dc13cc995c00, type: 3}
