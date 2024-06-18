@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
             var weapon = other.GetComponentInParent<Weapon>();
             var slidingScript = weapon.movingPartSliding;
             var endPosZ = slidingScript.endPosZ + 0.01f;
-            if (interactable.attachedToHand != null)
+            if (interactable.attachedToHand != null && weapon.returnInteractable().attachedToHand != null)
             {
                 slidingScript.isLoadingBulletByHand = true;
                 slidingScript.gameObject.transform.localPosition = new Vector3(slidingScript.startPos.x, slidingScript.startPos.y, Mathf.MoveTowards(slidingScript.gameObject.transform.localPosition.z, endPosZ, Time.timeScale));
