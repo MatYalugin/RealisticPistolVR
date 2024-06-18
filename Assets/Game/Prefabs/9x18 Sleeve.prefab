@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e6f7ba4a792591a4583dc3ddff9ef5b0, type: 2}
     - target: {fileID: 919132149155446097, guid: 5a834c26b0ab9f84bad5894978ebfa68, type: 3}
       propertyPath: m_Name
-      value: Sleeve
+      value: 9x18 Sleeve
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -100,7 +100,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2824260733882859295}
-  m_Material: {fileID: 13400000, guid: f3ba66ef4e6fb13428aae32a33a8e6fb, type: 2}
+  m_Material: {fileID: 13400000, guid: 1e1711686bc7bf94caf9223f9b89f015, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -140,7 +140,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 16
+  m_Constraints: 96
   m_CollisionDetection: 1
 --- !u!114 &8947686443861565409
 MonoBehaviour:

@@ -7,21 +7,43 @@ using Valve.VR.InteractionSystem;
 public class Magazine : MonoBehaviour
 {
     public int ammo;
+    public string caliber;
     private Interactable interactable;
+    public SteamVR_Action_Boolean buttonAAction;
     private Throwable throwable;
     public Rigidbody body;
     public List<GameObject> bullets;
     public Quaternion correctRot;
+    public GameObject bullet;
+    public Transform bulletPoint;
+    public Quaternion bulletRotOnDrop;
+    public AudioSource bulletPointAudioSource;
     private void Start()
     {
         interactable = GetComponent<Interactable>();
         throwable = GetComponent<Throwable>();
+    }
+    public Interactable ReturnInteractable()
+    {
+        return interactable;
     }
     private void Update()
     {
         DoNotAllowAmmoGoBelowZero();
         DisplayBulletsInMagazine();
         SetCorrectRotationByHolding();
+        CheckBulletDropButton();
+    }
+    private void CheckBulletDropButton()
+    {
+        if (interactable.attachedToHand != null)
+        {
+            SteamVR_Input_Sources hand = interactable.attachedToHand.handType;
+            if (buttonAAction[hand].stateDown && ammo != 0)
+            {
+                DropBullet();
+            }
+        }
     }
     private void DoNotAllowAmmoGoBelowZero()
     {
@@ -48,6 +70,7 @@ public class Magazine : MonoBehaviour
     {
         if (interactable.attachedToHand != null)
         {
+            //localRotation!!
             gameObject.transform.localRotation = correctRot;
         }
     }
@@ -62,6 +85,18 @@ public class Magazine : MonoBehaviour
                 other.transform.gameObject.GetComponentInParent<Weapon>().InsertMagazine(gameObject);
             }
         }
+    }
+    public void AddBullet()
+    {
+        ammo++;
+        bulletPointAudioSource.Play();
+    }
+    public void DropBullet()
+    {
+        ammo--;
+        bulletPointAudioSource.Play();
+        var newBullet = Instantiate(bullet, bulletPoint.position, bulletRotOnDrop);
+        newBullet.GetComponent<Rigidbody>().AddForce(bulletPoint.up * 0.02f, ForceMode.Impulse);
     }
     public void SetInteractableAndThrowable()
     {
