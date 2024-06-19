@@ -54,6 +54,11 @@ public class Sliding : MonoBehaviour
         else
         {
             _collider.enabled = false;
+            Hand hand = gameObject.GetComponent<Interactable>().attachedToHand;
+            if (gameObject.GetComponent<Interactable>().attachedToHand != null)
+            {
+                hand.DetachObject(gameObject);
+            }
         }
     }
     private void SetRightPosition()
