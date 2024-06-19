@@ -134,9 +134,9 @@ public class Weapon : MonoBehaviour
                 }
                 else
                 {
-                    if (hasHammer)
+                    if (hasHammer && !hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("HammerNotReadyToHit") && !hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("None"))
                     {
-                        hammerAnimator.Play("EmptyShotHammerMove");
+                        hammerAnimator.Play("HammerNotReadyToHit");
                     }
                 }
             }
@@ -181,13 +181,6 @@ public class Weapon : MonoBehaviour
             if (bulletInChamberGO.activeSelf && !hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("EmptyShotHammerMove"))
             {
                 hammerAnimator.Play("HammerReadyToHit");
-            }
-            else
-            {
-                if (!hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("EmptyShotHammerMove") && !hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName("None"))
-                {
-                    hammerAnimator.Play("HammerNotReadyToHit");
-                }
             }
         }
     }

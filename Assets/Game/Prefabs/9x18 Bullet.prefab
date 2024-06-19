@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6926710544357439821}
   - component: {fileID: 644480520162569539}
   - component: {fileID: 5382830245642187759}
+  - component: {fileID: 2482027809628576148}
   m_Layer: 0
   m_Name: 9x18 Bullet
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   m_GameObject: {fileID: 4041247343036642502}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0046988954, y: 0.49530113, z: 0}
+  m_LocalPosition: {x: -0.0046988954, y: 0.49266714, z: 0.0024408146}
   m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178,7 +179,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 05f4c81a917bb774da32559de949216d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -275,7 +276,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   caliber: 9x18
-  correctRot: {x: 0.70710677, y: 0, z: 0, w: -0.70710677}
 --- !u!114 &644480520162569539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,3 +382,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   interactable: {fileID: 0}
+--- !u!114 &2482027809628576148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041247343036642502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f4760d81ee4804fa5cf9e8de78b2af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonAAction:
+    actionPath: /actions/default/in/Button_A
+    needsReinit: 0
+  PrintLocalPositionAndRotation: 0
+  changeOnlyRotation: 1
+  correctPosition: {x: 0, y: 0, z: 0}
+  correctRotation: {x: -0.38003, y: 0.607, z: -0.03877, w: 0.69614}

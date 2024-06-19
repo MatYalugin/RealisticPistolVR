@@ -8,22 +8,9 @@ public class Bullet : MonoBehaviour
     private Interactable interactable;
     public string caliber;
     private Magazine magazine;
-    public Quaternion correctRot;
     void Start()
     {
         interactable = GetComponent<Interactable>();
-    }
-    private void Update()
-    {
-        SetCorrectRotationByHolding();
-    }
-    private void SetCorrectRotationByHolding()
-    {
-        if (interactable.attachedToHand != null)
-        {
-            //localRotation!!
-            gameObject.transform.localRotation = correctRot;
-        }
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -15,7 +15,6 @@ public class Magazine : MonoBehaviour
     private Throwable throwable;
     public Rigidbody body;
     public List<GameObject> bullets;
-    public Quaternion correctRot;
     public GameObject bullet;
     public Transform bulletPoint;
     public AudioSource bulletPointAudioSource;
@@ -32,7 +31,6 @@ public class Magazine : MonoBehaviour
     {
         ammo = Mathf.Clamp(ammo, 0, bullets.Count);
         DisplayBulletsInMagazine();
-        SetCorrectRotationByHolding();
         CheckBulletDropButton();
     }
     private void CheckBulletDropButton()
@@ -60,14 +58,6 @@ public class Magazine : MonoBehaviour
             }
         }
     }
-    private void SetCorrectRotationByHolding()
-    {
-        if (interactable.attachedToHand != null)
-        {
-            //localRotation!!
-            gameObject.transform.localRotation = correctRot;
-        }
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.gameObject.tag.Equals("MagazinePoint") && interactable.attachedToHand != null)
@@ -89,8 +79,7 @@ public class Magazine : MonoBehaviour
     {
         ammo--;
         bulletPointAudioSource.Play();
-        var rotationOnDrop = Quaternion.Euler(gameObject.transform.rotation.x - 90, gameObject.transform.rotation.y, gameObject.transform.rotation.z);
-        var newBullet = Instantiate(bullet, bulletPoint.position, rotationOnDrop);
+        var newBullet = Instantiate(bullet, bulletPoint.position, bulletPoint.transform.localRotation);
         newBullet.GetComponent<Rigidbody>().AddForce(bulletPoint.up * 0.02f, ForceMode.Impulse);
     }
     public void SetInteractableAndThrowable()
@@ -98,5 +87,6 @@ public class Magazine : MonoBehaviour
         gameObject.AddComponent<Throwable>();
         interactable = GetComponent<Interactable>();
         throwable = GetComponent<Throwable>();
+        gameObject.GetComponent<CorrectGrabbing>().FindInteractableAgain();
     }
 }

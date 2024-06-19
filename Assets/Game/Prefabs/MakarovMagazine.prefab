@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 2757163389374773828}
   - component: {fileID: 8257459650579300785}
   - component: {fileID: 5001409180526740763}
+  - component: {fileID: 2741525983634801360}
   m_Layer: 0
   m_Name: MakarovMagazine
   m_TagString: Untagged
@@ -255,7 +256,6 @@ MonoBehaviour:
   - {fileID: 298341005970938318}
   - {fileID: 9041623251124734956}
   - {fileID: 7006206547828539154}
-  correctRot: {x: 0, y: 0, z: 0, w: 1}
   bullet: {fileID: 4041247343036642502, guid: 48513c936ac418343a71dc13cc995c00, type: 3}
   bulletPoint: {fileID: 8310590002708242848}
   bulletPointAudioSource: {fileID: 553069097353403297}
@@ -365,6 +365,25 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   interactable: {fileID: 0}
+--- !u!114 &2741525983634801360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836063616373447702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f4760d81ee4804fa5cf9e8de78b2af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonAAction:
+    actionPath: /actions/default/in/Button_A
+    needsReinit: 0
+  PrintLocalPositionAndRotation: 0
+  changeOnlyRotation: 1
+  correctPosition: {x: -0.02, y: -0.03, z: -0.09}
+  correctRotation: {x: 0.4998497, y: -0.000000367432, z: 0.00000020404639, w: -0.8661122}
 --- !u!1 &2332181142854185545
 GameObject:
   m_ObjectHideFlags: 0
