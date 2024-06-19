@@ -194,7 +194,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 431281684629147914, guid: 42947914eb27bd44daddc232f041f505, type: 3}
       propertyPath: m_Radius
-      value: 0.03
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1071413430283185748, guid: 42947914eb27bd44daddc232f041f505, type: 3}
       propertyPath: m_IsActive
@@ -267,6 +267,10 @@ PrefabInstance:
     - target: {fileID: 8896342781688692676, guid: 42947914eb27bd44daddc232f041f505, type: 3}
       propertyPath: m_Radius
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8927631670509159676, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: hideHandOnAttach
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9193570778676127611, guid: 42947914eb27bd44daddc232f041f505, type: 3}
       propertyPath: force
