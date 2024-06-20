@@ -12,7 +12,6 @@ public class CorrectGrabbing : MonoBehaviour
     public bool changeOnlyRotation;
     public Vector3 correctPosition;
     public Quaternion correctRotation;
-    // Start is called before the first frame update
     void Start()
     {
         interactable = gameObject.GetComponent<Interactable>();
@@ -24,7 +23,7 @@ public class CorrectGrabbing : MonoBehaviour
 
     void Update()
     {
-        if(interactable.attachedToHand != null)
+        if (interactable.attachedToHand != null)
         {
             if (PrintLocalPositionAndRotation)
             {
@@ -43,7 +42,7 @@ public class CorrectGrabbing : MonoBehaviour
                     gameObject.transform.localPosition = correctPosition;
                 }
                 gameObject.transform.localRotation = correctRotation;
-            }  
+            }
         }
     }
 }

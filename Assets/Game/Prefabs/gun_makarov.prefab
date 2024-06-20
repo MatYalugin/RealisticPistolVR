@@ -1090,7 +1090,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3688165576876972326}
   - component: {fileID: 6470031931048887774}
-  - component: {fileID: 1750244343830000334}
   m_Layer: 0
   m_Name: MagazinePointInsert
   m_TagString: MagazinePoint
@@ -1134,33 +1133,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.05
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1750244343830000334
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5328088650388292309}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &5613589635022819547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,7 +2132,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -56.164837, y: 0.020092722, z: 53.86936}
-  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7988150876954271095}
@@ -2343,8 +2315,8 @@ MonoBehaviour:
   secondGrabPoint: {fileID: 5251189445742375398}
   movingPartSliding: {fileID: 1934282609950549919}
   delay: 0.4
-  force: 20
-  chanceOfJamming: 0.03
+  force: 25
+  chanceOfJamming: 0.02
   magazineType: PM_Magazine
   shotEffect: {fileID: 7097142409318758357}
   triggerAnimator: {fileID: 7099226561348604930}
@@ -2493,8 +2465,8 @@ MonoBehaviour:
     needsReinit: 0
   PrintLocalPositionAndRotation: 0
   changeOnlyRotation: 0
-  correctPosition: {x: -0.06, y: -0.09, z: -0.09}
-  correctRotation: {x: 0.38268274, y: -0.00000055883686, z: 0.0000013491542, w: 0.9238798}
+  correctPosition: {x: -0.07, y: -0.1, z: -0.08}
+  correctRotation: {x: 0.40119, y: -0.02097, z: 0.01569, w: 0.91562}
 --- !u!1 &8016697359657904388
 GameObject:
   m_ObjectHideFlags: 0

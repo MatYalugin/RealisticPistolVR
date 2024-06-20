@@ -1067,6 +1067,34 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctPosition.x
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctPosition.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctPosition.z
+      value: -0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctRotation.w
+      value: 0.91562
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctRotation.x
+      value: 0.40119
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctRotation.y
+      value: -0.02097
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
+      propertyPath: correctRotation.z
+      value: 0.01569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826434024888192212, guid: 42947914eb27bd44daddc232f041f505, type: 3}
       propertyPath: changeOnlyRotation
       value: 0
       objectReference: {fileID: 0}
